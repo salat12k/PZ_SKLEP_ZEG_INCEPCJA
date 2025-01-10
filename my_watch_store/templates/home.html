@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta charset="UTF-8" />
+  <title>SklepIncepcja - Lista Zegarków</title>
+
+  <!-- Bootstrap CSS (CDN) -->
+  <!--<link
+    rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoWqkHU5FmKw1EJ+GirMb1Ard5vgn8uPka53lpTOQuvi1B"
+    crossorigin="anonymous"
+  /> !-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+  <!-- Ikony (opcjonalnie) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+  />
+
+  <style>
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: 0.3s;
+    }
+    footer {
+      background-color: #222;
+      color: #aaa;
+    }
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-$END$
+  <!-- Nawigacja -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('main.home') }}">
+        <strong>SklepIncepcja</strong>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.add_watch') }}">
+              <i class="bi bi-plus-circle"></i> Dodaj zegarek
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Kontener z listą zegarków -->
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Nasze Zegarki</h2>
+    {% if watches %}
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for watch in watches %}
+          <div class="col">
+            <div class="card h-100">
+
+              {% if watch.image_filename %}
+                <!-- Wgrany obrazek -->
+                <img
+                  s  src="{{ url_for('static', filename='uploads/' ~ watch.image_filename) }}"
+                  class="card-img-top fixed-size-img"
+                  alt="Zegarek {{ watch.brand }} {{ watch.model }}"
+                >
+              {% else %}
+                <!-- Placeholder, jeśli brak zdjęcia -->
+                <img
+                  src="https://via.placeholder.com/500x300?text=No+Image"
+                  class="card-img-top"
+                  alt="Brak zdjęcia"
+                >
+              {% endif %}
+
+              <div class="card-body">
+                <h5 class="card-title">{{ watch.brand }} - {{ watch.model }}</h5>
+                <p class="card-text">
+                  Cena: <strong>{{ watch.price }} PLN</strong>
+                </p>
+              </div>
+              <div class="card-footer d-flex justify-content-between">
+                <form action="{{ url_for('main.delete_watch', watch_id=watch.id) }}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash"></i> Usuń
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center">Brak zegarków w sklepie. Dodaj pierwszy zegarek!</p>
+    {% endif %}
+  </div>
+
+  <!-- Stopka -->
+  <footer class="py-3 mt-5">
+    <div class="container text-center">
+      <p class="mb-0">&copy; Incepcja Team. Wszelkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS (CDN) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+S49usDl+Lwqe/9zGhEnXUol7+NBY"
+    crossorigin="anonymous"
+  ></script>
 </body>
 </html>

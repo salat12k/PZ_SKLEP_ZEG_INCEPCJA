@@ -1,0 +1,23 @@
+# SklepIncepcja
+
+Aplikacja umożliwiająca:
+- Wyświetlanie listy zegarków (z ceną i zdjęciem).
+- Dodawanie nowych zegarków (z wgrywaniem zdjęcia).
+- Usuwanie zegarków (z usuwaniem pliku z dysku).
+
+## Jak uruchomić?
+
+1. Stwórz wirtualne środowisko:
+   python -m venv venv
+   source venv/bin/activate   (Linux/Mac)
+   venv\Scripts\activate      (Windows)--
+
+2. Zainstaluj zależności:
+   pip install -r requirements.txt
+
+3. Uruchom aplikację:
+   python run.py
+
+4. Przejdź w przeglądarce na:
+   http://127.0.0.1:5000/
+
